@@ -1,0 +1,2 @@
+# WaterEnchant
+A bukkit plugin
