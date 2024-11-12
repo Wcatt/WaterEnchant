@@ -1,0 +1,24 @@
+name: WaterEnchant
+version: '1.0.0'
+main: waterfun.waterwood.waterenchant.WaterEnchant
+author: WaterWood
+description: a plugin that extends original enchantments
+commands:
+  waterenchant:
+    aliases: [wct,wenchant]
+permissions:
+  waterenchant.*:
+    description: "ability to use all waterenchant commands"
+    children:
+      waterenchant.admin: true
+      waterenchant.enchant: true
+  waterenchant.admin:
+    default: op
+    description: "admin command permission"
+    children:
+      waterenchant.enchant: true
+  waterenchant.enchant:
+    default: op
+    description: "ability to enchant items which waterEnchant contains"
+
+

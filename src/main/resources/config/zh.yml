@@ -1,0 +1,7 @@
+config-version: 1.0.0
+
+locale: zh
+
+check-update:
+  enable: true
+  auto-download: true
