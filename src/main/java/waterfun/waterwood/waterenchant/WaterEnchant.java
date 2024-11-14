@@ -25,8 +25,8 @@ public final class WaterEnchant extends BukkitPlugin {
         this.checkUpdate("Wcatt","WaterEnchant","1.0.0");
         Methods.init(this);
         registerCommands();
-        registerEvents();
         registerEnchants();
+        registerEvents();
     }
 
     @Override

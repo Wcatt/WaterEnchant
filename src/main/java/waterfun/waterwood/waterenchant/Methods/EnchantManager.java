@@ -1,15 +1,11 @@
 package waterfun.waterwood.waterenchant.Methods;
 
 import org.bukkit.NamespacedKey;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.waterwood.io.FileConfigProcess;
-import org.waterwood.plugin.bukkit.command.CommandManager;
 import org.waterwood.plugin.bukkit.util.CustomEnchant;
-import waterfun.waterwood.waterenchant.WaterEnchant;
 
 import java.util.*;
 
@@ -76,18 +72,12 @@ public class EnchantManager extends Methods{ // support 1.14.4 plus
     public static CustomEnchant getEnchantment(String nameKey){
         return enchantments.get(nameKey);
     }
-    public static Map<String,Object> getEnchantInfos(String key){
-        return (Map<String, Object>) EnchantInfo.get(key);
-    }
-    public static FileConfigProcess getData(){
-        return EnchantInfo;
-    }
-    public static String getEnchantName(CustomEnchant enchant){
-        Optional<Map<String, Object>> infos = Optional.of(getEnchantInfos(enchant.getKey().getKey()));
-        return (String) infos.map(ins -> ins.get("name")).orElse("UNKNOWN");
-    }
-    public static String getEnchantDescription(CustomEnchant enchant){
-        Optional<Map<String, Object>> infos = Optional.of(getEnchantInfos(enchant.getName()));
-        return (String) infos.map(ins -> ins.get("description")).orElse("unknown description");
+    public static Map<String, Object> getData(String key){
+        Object data = EnchantInfo.getMapData().get(key);
+        if (data == null){
+            return new HashMap<>();
+        }else{
+            return (Map<String, Object>) data;
+        }
     }
 }

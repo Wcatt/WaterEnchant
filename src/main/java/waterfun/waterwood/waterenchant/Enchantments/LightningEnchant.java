@@ -1,38 +1,52 @@
 package waterfun.waterwood.waterenchant.Enchantments;
 
 import org.bukkit.NamespacedKey;
-import org.waterwood.consts.ColorCode;
-import org.waterwood.plugin.bukkit.util.CustomEnchant;
-import waterfun.waterwood.waterenchant.Methods.EnchantManager;
+import org.waterwood.consts.COLOR;
 
-public class LightningEnchant extends CustomEnchant {
+import java.util.List;
+import java.util.Map;
 
-
+public class LightningEnchant extends Enchants {
     public LightningEnchant() {
         super(new NamespacedKey("waterenchant","lightning"));
+        this.InitData();
     }
 
     @Override
-    public String getName() {
-        return EnchantManager.getEnchantName(this);
+    public String getDefaultName() {
+        return "lightning";
     }
 
     @Override
-    public ColorCode getNameColor() {
-        return ColorCode.DARKBLUE;
+    public COLOR getDefaultNameColor() {
+        return COLOR.BLUE;
     }
 
     @Override
-    public int getMinLevel() {
+    public int getDefaultMinLevel() {
         return 1;
     }
 
     @Override
-    public int getMaxLevel() {
+    public int getDefaultMaxLevel() {
         return 5;
     }
+
     @Override
-    public String getDescription(){
-        return EnchantManager.getEnchantDescription(this);
+    public void InitData() {
+        this.getData().put("chance-per-level",this.getChancePerLevel());
+        super.InitData();
+    }
+
+    @Override
+    public List<String> getDefaultDescription(){
+        return List.of(
+                "A enchant that when player attack an entity",
+                "will summon a lightning at the entries' position",
+                "chance per level: §6%d§r percent".formatted(getChancePerLevel())
+        );
+    }
+    public int getChancePerLevel(){
+        return (int) getFileInfo("chance-per-level",15);
     }
 }

@@ -7,19 +7,18 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.waterwood.common.Colors;
 import org.waterwood.common.StringProcess;
-import org.waterwood.consts.ColorCode;
+import org.waterwood.consts.COLOR;
 import org.waterwood.plugin.bukkit.BukkitPlugin;
 import org.waterwood.plugin.bukkit.command.BukkitCommand;
 import org.waterwood.plugin.bukkit.util.CustomEnchant;
-import waterfun.waterwood.waterenchant.Events.EnchantEvents;
 import waterfun.waterwood.waterenchant.Methods.EnchantManager;
-import waterfun.waterwood.waterenchant.WaterEnchant;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class EnchantCommand extends BukkitCommand {
-    public static List<String> ACTION = List.of("set","add","increase","decrease","remove","clear");
+    public static List<String> ACTION = List.of("set","add","increase","decrease","remove","clear","info");
     public EnchantCommand(String path) {
         super(path);
     }
@@ -33,7 +32,7 @@ public class EnchantCommand extends BukkitCommand {
 
         if (! ACTION.contains(action_name)){ // illegal action
             sender.sendMessage(Colors.coloredText(BukkitPlugin.getPluginMessage("illegal-action-message")
-                    .formatted(action_name), ColorCode.RED));
+                    .formatted(action_name), COLOR.RED));
             return false;
         }
         if(args.length > 3) {
@@ -42,18 +41,32 @@ public class EnchantCommand extends BukkitCommand {
         }
         Player player = (Player)sender;
         ItemStack item = player.getInventory().getItemInMainHand();
-        if(item.getType() == Material.AIR) {
-            sender.sendMessage(Colors.coloredText(BukkitPlugin.getPluginMessage("hand-empty-message"),ColorCode.RED));
-            return false;
-        }
 
         if(EnchantManager.getEnchantments().containsKey(enchantNameKey)){ // check enchant is exist.
             CustomEnchant enchantment = EnchantManager.getEnchantment(enchantNameKey);
+
+            if(action_name.equals("info")){ //give the highest priority
+                sender.sendMessage( "§l§70§r " +
+                        BukkitPlugin.getPluginMessage("enchant-info-shown-message")
+                                .formatted(enchantment.getDisplayName())
+                );
+                for(String str: enchantment.getDescription()){
+                    sender.sendMessage("§l§7>§r " + str);
+                }
+                return true;
+            }
+
+            if(item.getType() == Material.AIR) { // item in player's hand
+                sender.sendMessage(Colors.coloredText(BukkitPlugin.getPluginMessage("hand-empty-message"), COLOR.RED));
+                return false;
+            }
+
             int minLvl = enchantment.getMinLevel();
             int maxLvl = enchantment.getMaxLevel();
             ItemMeta meta = item.getItemMeta();
             if(meta != null) {
-                if(checkArgNumIn(sender,level,minLvl,maxLvl)){ //add lores
+
+                if(checkArgNumIn(sender,level,minLvl,maxLvl)){ // add lores
                         List<String> lores = meta.getLore();
                         if(lores == null) lores = new ArrayList<>();
                         lores.add(
@@ -70,27 +83,28 @@ public class EnchantCommand extends BukkitCommand {
                             EnchantManager.addEnchant(item,enchantment,level);
                             successMessage =  Colors.coloredText(
                                     BukkitPlugin.getPluginMessage("enchant-set-success-message",enchantment.getName(),level),
-                                    " ", ColorCode.GREEN, enchantment.getNameColor(), ColorCode.GREEN, ColorCode.GOLD, ColorCode.GREEN);
+                                    " ", COLOR.GREEN, enchantment.getNameColor(), COLOR.GREEN, COLOR.GOLD, COLOR.GREEN);
                         }
                     case "add":
                         if(! EnchantManager.hasEnchant(item,enchantment)){
                             EnchantManager.addEnchant(item,enchantment,level);
                             successMessage = Colors.coloredText(BukkitPlugin.getPluginMessage("enchant-success-message", enchantment.getName())," "
-                                    ,ColorCode.GREEN
+                                    , COLOR.GREEN
                                     ,enchantment.getNameColor()
-                                    ,ColorCode.GREEN);
-                        };
+                                    , COLOR.GREEN);
+                        }
                         break;
                     case "remove":
                     case "clear":
                         if(EnchantManager.hasEnchant(item,enchantment)){
                             successMessage = Colors.coloredText(
                                     BukkitPlugin.getPluginMessage("enchant-remove-success-message",enchantment.getName())
-                                    ," ",ColorCode.GREEN,
+                                    ," ", COLOR.GREEN,
                                     enchantment.getNameColor(),
-                                    ColorCode.GREEN
+                                    COLOR.GREEN
                             );
-                        };break;
+                        }
+                        break;
                 }
                 if(successMessage != null) sender.sendMessage(successMessage);
                 return true;
@@ -98,7 +112,7 @@ public class EnchantCommand extends BukkitCommand {
         }
         // can't find custom enchant
         sender.sendMessage(Colors.coloredText(BukkitPlugin.getPluginMessage("enchant-not-found-message")
-                , ColorCode.RED));
+                , COLOR.RED));
         return false;
     }
 

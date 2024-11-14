@@ -26,6 +26,4 @@ public class Methods {
         ItemMeta meta = item.getItemMeta();
         return Optional.ofNullable(meta);
     }
-
-
 }
