@@ -5,7 +5,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.waterwood.consts.COLOR;
 import org.waterwood.plugin.bukkit.util.CustomEnchant;
+import org.waterwood.consts.RarityLevel;
+import waterfun.waterwood.waterenchant.util.Enchants;
 
 import java.util.*;
 
@@ -18,20 +21,18 @@ public class EnchantManager extends Methods{ // support 1.14.4 plus
     }
     public static boolean hasEnchant(ItemStack item, CustomEnchant enchant) {
         return getItemMetaOptional(item)
-                .map(meta -> meta.getPersistentDataContainer().get(enchant.getKey(), PersistentDataType.STRING) != null)
+                .map(meta -> meta.getPersistentDataContainer().get(enchant.getKey(), PersistentDataType.INTEGER) != null)
                 .orElse(false);
     }
     public static boolean hasEnchant(ItemStack item,String enchantNameKey){
         return getItemMetaOptional(item)
-                .map(meta -> meta.getPersistentDataContainer().get(new NamespacedKey("waterenchant",enchantNameKey), PersistentDataType.STRING) != null)
+                .map(meta -> meta.getPersistentDataContainer().get(new NamespacedKey(Enchants.getDefaultNameSpace(),enchantNameKey), PersistentDataType.INTEGER) != null)
                 .orElse(false);
     }
-    public static void addEnchant(ItemStack item, CustomEnchant enchant, int level) {
+    public static void setEnchant(ItemStack item, CustomEnchant enchant, int level) {
         getItemMetaOptional(item).ifPresent(meta -> {
             meta.getPersistentDataContainer()
-                    .set(enchant.getKey(), PersistentDataType.STRING, enchant.getKey().getKey());
-            meta.getPersistentDataContainer()
-                    .set(getLevelKey(enchant), PersistentDataType.INTEGER, level);
+                    .set(enchant.getKey(), PersistentDataType.INTEGER, level);
             item.setItemMeta(meta);
         });
     }
@@ -40,31 +41,38 @@ public class EnchantManager extends Methods{ // support 1.14.4 plus
             ItemMeta meta= item.getItemMeta();
             PersistentDataContainer datum= meta.getPersistentDataContainer();
             datum.remove(enchant.getKey());
-            datum.remove(getLevelKey(enchant));
             item.setItemMeta(meta);
         }
     }
     public static int getLevel(ItemStack item,CustomEnchant enchant){
         return getItemMetaOptional(item)
                 .map(meta ->meta.getPersistentDataContainer()
-                        .get(getLevelKey(enchant), PersistentDataType.INTEGER)
+                        .get(enchant.getKey(), PersistentDataType.INTEGER)
                 ).orElse(0);
     }
-    public static List<String> getItemEnchanted(ItemStack item){
-        List<String> enchants = new ArrayList<>();
+    public static List<CustomEnchant> getItemEnchanted(ItemStack item){
+        List<CustomEnchant> enchants = new ArrayList<>();
         return getItemMetaOptional(item).map(meta -> {
             PersistentDataContainer container = meta.getPersistentDataContainer();
             Set<NamespacedKey> keys = container.getKeys();
             for(NamespacedKey key : keys){
                 if(enchantments.containsKey(key.getKey())){
-                    enchants.add(key.getKey());
+                    enchants.add(enchantments.get(key.getKey()));
                 }
             }
             return enchants;
         }).orElse(List.of());
     }
-    private static NamespacedKey getLevelKey(CustomEnchant enchant){
-        return new NamespacedKey(enchant.getKey().getKey(),"_level");
+    public static CustomEnchant getRarestEnchant(ItemStack item){
+        List<CustomEnchant> enchants = getItemEnchanted(item);
+        if (enchants.isEmpty()) return null;
+        CustomEnchant[] upperEnchant = {enchants.get(0)};
+        enchants.forEach(enchant -> {
+            if(enchant.getRarityLevel().getWorth() >= upperEnchant[0].getRarityLevel().getWorth()){
+                upperEnchant[0] = enchant;
+            }
+        });
+        return upperEnchant[0];
     }
     public static Map<String,CustomEnchant> getEnchantments(){
         return enchantments;

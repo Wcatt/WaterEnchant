@@ -1,5 +1,62 @@
 # 以下是关于自定义附魔的具体附魔配置
+# 所有属性都是可选的，如果不添加修改，则会使用插件内置的附魔属性
+# 管理员可以手动修改或者添加这些属性以修改默认属性。一般默认属性已标注在对应附魔之前
+#
+# 像一些特殊的属性 chance-per-level 之类的，也都有默认的值
+# ! 强烈推荐添加description，否则会应用默认的英文的描述
+#
+# display是关于该附魔的附魔展示,会在物品的 lore 上显示
+# 最先展示稀有度最高的display
+#
+# description 第一,二行通常是关于该附魔的大致解释
+#
+# rarity 为附魔的稀有度，影响默认的name-color
+# rarity共有6个等级 common/normal , advance , rare , epic , legend, mythic
+# 分别对应 普通，进阶,稀有，史诗，传说，神话
+# 分别对应的颜色 灰，绿，青，紫，金，红
+
 lightning:
   name: "雷击"
+  min-level: 1
+  max-level: 5
+  rarity: advance
+  chance-per-level: 15
+  display: "§b你以雷霆之威，震慑四方，柔情亦藏心间§r"
   description:
     - "在攻击的时候有概率在敌人位置生成雷电电击敌人"
+    - ""
+    - "最低等级: §7{min-level}§r / 最高等级: §7{max-level}§r"
+    - "每级增加: §6{chance-per-level} %§r 概率"
+vampire:
+  name: "汲取"
+  min-level: 1
+  max-level: 5
+  rarity: legend
+  healing-percent-per-level: 10
+  display: "§c”我在你的血液里品尝到了恐惧“§r"
+  description:
+    - "在攻击敌人的时候，按一定比率转化伤害变成生命值,以此来治疗自己"
+    - "最低等级: §7{min-level}§r / 最高等级: §7{max-level}§r"
+    - "每级增加: §6{healing-percent-per-level} %§r 转化比率"
+# basic-duration 和 duration-per-level-tick 都用的是 tick作为单位
+# 20 个 ticks 约为 1 秒
+# effect 每点大约是 2颗黄色心，4点生命值,第 1 级提供 2 颗
+# stack代表是否是叠加，如果为false则效果只是覆盖
+damage-absorb:
+  name: "伤害吸收"
+  max-level: 5
+  rarity: epic
+  basic-duration: 10
+  duration-per-level-tick: 20
+  effect-per-level: 1
+  is-duration-stack: false
+  is-effect-stack: false
+  display: "剑起风雷，护佑如影随形。"
+  description:
+    - "使用剑对实体造成伤害的时候会短暂生成伤害吸收效果"
+    - ""
+    - "最低等级 §7{min-level}§r / 最高等级: §7{max-level}§r"
+    - "每级护佑强度: §6{effect-per-level}§r"
+    - "持续时间: §6{basic-duration}§r + §6{duration-per-level-tick}§r tick每级"
+
+

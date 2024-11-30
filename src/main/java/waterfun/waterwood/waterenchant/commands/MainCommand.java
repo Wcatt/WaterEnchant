@@ -2,6 +2,8 @@ package waterfun.waterwood.waterenchant.commands;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.waterwood.common.Colors;
+import org.waterwood.consts.COLOR;
 import org.waterwood.plugin.bukkit.BukkitPlugin;
 import org.waterwood.plugin.bukkit.command.BukkitCommand;
 
@@ -16,6 +18,7 @@ public class MainCommand extends BukkitCommand {
     @Override
     public boolean execute(CommandSender sender, String[] args) {
         sender.sendMessage(BukkitPlugin.getPluginInfo());
+        sender.sendMessage(Colors.coloredText(BukkitPlugin.getPluginMessage("help-info-message"), COLOR.GOLD));
         return true;
     }
 
@@ -26,8 +29,9 @@ public class MainCommand extends BukkitCommand {
         if(args.length == 1) {
             if (sender instanceof Player) {
                 completes.add("enchant");
+                completes.add("list");
             }
-            completes.add("help");
+            completes.addAll(List.of("info","help","reload"));
         }
         return completes;
     }

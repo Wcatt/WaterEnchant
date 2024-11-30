@@ -1,0 +1,18 @@
+# 以下是关于自定义附魔的具体附魔配置
+lightning:
+  name: "雷击"
+  name-color: "&1"
+  min-level: 1
+  max-level: 5
+  rarity: advance
+  chance-per-level: 15
+  description:
+    - "在攻击的时候有概率在敌人位置生成雷电电击敌人"
+    - "最低等级 §7{min-level}§r / 最高等级: §7{max-level}§r"
+    - "每级增加 §6{chance-per-level} %§r 概率"
+vampire:
+  name: "汲取"
+  min-level: 1
+  max-level: 5
+  rarity: epic
+  healing-percent-per-level: 15

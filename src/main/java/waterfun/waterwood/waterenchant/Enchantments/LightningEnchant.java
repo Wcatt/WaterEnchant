@@ -1,25 +1,23 @@
 package waterfun.waterwood.waterenchant.Enchantments;
 
 import org.bukkit.NamespacedKey;
+import org.waterwood.common.Colors;
 import org.waterwood.consts.COLOR;
+import org.waterwood.consts.RarityLevel;
+import waterfun.waterwood.waterenchant.util.Enchants;
 
 import java.util.List;
-import java.util.Map;
 
 public class LightningEnchant extends Enchants {
+    private static int CHANCE_PER_LEVEL = 15;
     public LightningEnchant() {
-        super(new NamespacedKey("waterenchant","lightning"));
+        super(new NamespacedKey(defaultNameSpace,"lightning"));
         this.InitData();
     }
 
     @Override
     public String getDefaultName() {
         return "lightning";
-    }
-
-    @Override
-    public COLOR getDefaultNameColor() {
-        return COLOR.BLUE;
     }
 
     @Override
@@ -34,7 +32,7 @@ public class LightningEnchant extends Enchants {
 
     @Override
     public void InitData() {
-        this.getData().put("chance-per-level",this.getChancePerLevel());
+        CHANCE_PER_LEVEL = inputData("chance-per-level",15);
         super.InitData();
     }
 
@@ -43,10 +41,28 @@ public class LightningEnchant extends Enchants {
         return List.of(
                 "A enchant that when player attack an entity",
                 "will summon a lightning at the entries' position",
-                "chance per level: §6%d§r percent".formatted(getChancePerLevel())
+                "",
+                "Level(min,max): §7{min-level}§r / §7{max-level}§r",
+                "§6chance per level: §7{chance-per-level}§r percent"
         );
     }
-    public int getChancePerLevel(){
-        return (int) getFileInfo("chance-per-level",15);
+
+    @Override
+    public RarityLevel getDefaultRarityLevel() {
+        return RarityLevel.ADVANCE;
+    }
+
+    @Override
+    public String getDefaultDisplay() {
+        return "§bWith thunderous might, you command all \nharbor tenderness within.§r";
+    }
+
+    @Override
+    public List<String> getAllowEnchantItems() {
+        return List.of("all");
+    }
+
+    public static int getChancePerLevel(){
+        return CHANCE_PER_LEVEL;
     }
 }
