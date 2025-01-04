@@ -2,13 +2,12 @@ package waterfun.waterwood.waterenchant.commands;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.waterwood.common.Colors;
-import org.waterwood.consts.COLOR;
+import org.waterwood.utils.Colors;
+import org.waterwood.enums.COLOR;
 import org.waterwood.plugin.bukkit.BukkitPlugin;
 import org.waterwood.plugin.bukkit.command.BukkitCommand;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MainCommand extends BukkitCommand {
@@ -28,8 +27,7 @@ public class MainCommand extends BukkitCommand {
         ArrayList<String> completes = new ArrayList<>();
         if(args.length == 1) {
             if (sender instanceof Player) {
-                completes.add("enchant");
-                completes.add("list");
+                completes.addAll(List.of("enchant","list","give"));
             }
             completes.addAll(List.of("info","help","reload"));
         }

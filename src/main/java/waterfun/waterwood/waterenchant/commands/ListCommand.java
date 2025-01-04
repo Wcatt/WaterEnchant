@@ -4,11 +4,11 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.waterwood.common.Colors;
-import org.waterwood.consts.COLOR;
+import org.waterwood.utils.Colors;
+import org.waterwood.enums.COLOR;
 import org.waterwood.plugin.bukkit.BukkitPlugin;
 import org.waterwood.plugin.bukkit.command.BukkitCommand;
-import org.waterwood.plugin.bukkit.util.CustomEnchant;
+import org.waterwood.plugin.bukkit.custom.CustomEnchant;
 import waterfun.waterwood.waterenchant.Methods.EnchantManager;
 
 import java.util.ArrayList;

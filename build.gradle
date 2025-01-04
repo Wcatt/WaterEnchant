@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    implementation project(path: ':WaterAPI')
+    implementation project(':WaterAPI')
     compileOnly "io.papermc.paper:paper-api:1.20-R0.1-SNAPSHOT"
 }
 

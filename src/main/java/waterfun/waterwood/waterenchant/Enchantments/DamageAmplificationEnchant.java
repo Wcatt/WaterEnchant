@@ -1,8 +1,6 @@
 package waterfun.waterwood.waterenchant.Enchantments;
 
-import org.bukkit.ChatColor;
-import org.bukkit.NamespacedKey;
-import org.waterwood.consts.RarityLevel;
+import org.waterwood.enums.RarityLevel;
 import waterfun.waterwood.waterenchant.util.Enchants;
 
 import java.util.List;
@@ -10,7 +8,7 @@ import java.util.List;
 public class DamageAmplificationEnchant extends Enchants {
     private static double GROWTH_PERCENT_PER_LEVEL;
     public DamageAmplificationEnchant() {
-        super(new NamespacedKey(defaultNameSpace,"damage-amplification"));
+        super("damage-amplification");
         this.InitData();
     }
 

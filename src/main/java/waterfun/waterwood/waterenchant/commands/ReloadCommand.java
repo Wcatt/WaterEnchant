@@ -1,8 +1,8 @@
 package waterfun.waterwood.waterenchant.commands;
 
 import org.bukkit.command.CommandSender;
-import org.waterwood.common.Colors;
-import org.waterwood.consts.COLOR;
+import org.waterwood.utils.Colors;
+import org.waterwood.enums.COLOR;
 import org.waterwood.plugin.bukkit.BukkitPlugin;
 import org.waterwood.plugin.bukkit.command.BukkitCommand;
 import waterfun.waterwood.waterenchant.Methods.EnchantManager;

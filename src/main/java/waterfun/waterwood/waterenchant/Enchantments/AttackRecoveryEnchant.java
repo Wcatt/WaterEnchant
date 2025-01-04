@@ -1,7 +1,6 @@
 package waterfun.waterwood.waterenchant.Enchantments;
 
-import org.bukkit.NamespacedKey;
-import org.waterwood.consts.RarityLevel;
+import org.waterwood.enums.RarityLevel;
 import waterfun.waterwood.waterenchant.util.Enchants;
 
 import java.util.List;
@@ -11,7 +10,7 @@ public class AttackRecoveryEnchant extends Enchants {
     private static double RECOVERY_EFFECT_PER_LEVEL;
     private static double DURATION_PER_LEVEL;
     public AttackRecoveryEnchant() {
-        super(new NamespacedKey(defaultNameSpace,"attack-recovery"));
+        super("attack-recovery");
         this.InitData();
     }
 

@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="libs">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/WaterAPI/build/libs/WaterAPI-1.0-SNAPSHOT.jar!/" />
+      <root url="jar://$PROJECT_DIR$/WaterAPI/build/libs/WaterAPI-1.1-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

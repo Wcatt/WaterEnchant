@@ -3,11 +3,10 @@ package waterfun.waterwood.waterenchant;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.waterwood.common.Colors;
-import org.waterwood.consts.COLOR;
+import org.waterwood.utils.Colors;
+import org.waterwood.enums.COLOR;
 import org.waterwood.plugin.bukkit.BukkitPlugin;
 import org.waterwood.plugin.bukkit.command.CommandManager;
-import waterfun.waterwood.waterenchant.Enchantments.*;
 import waterfun.waterwood.waterenchant.Events.PlayerEvents;
 import waterfun.waterwood.waterenchant.Methods.EnchantManager;
 import waterfun.waterwood.waterenchant.Methods.Methods;
@@ -26,6 +25,7 @@ public final class WaterEnchant extends BukkitPlugin {
         Methods.init(this);
         registerCommands();
         registerEnchants();
+        registerItems();
         registerEvents();
     }
 
@@ -44,7 +44,8 @@ public final class WaterEnchant extends BukkitPlugin {
                 new InfoCommand("info"),
                 new HelpCommand("help"),
                 new ListCommand("list"),
-                new ReloadCommand("reload")
+                new ReloadCommand("reload"),
+                new GiveItemCommand("give")
                 );
     }
 
@@ -57,6 +58,9 @@ public final class WaterEnchant extends BukkitPlugin {
         getPluginMessage("load-enchant-count-message",EnchantManager.getEnchantments().values().size());
         logMsg(Colors.coloredText(getPluginMessage("load-enchant-count-message",EnchantManager.getEnchantments().values().size()),
                 " ", COLOR.GREEN,COLOR.GOLD,COLOR.GREEN));
+    }
+    public void registerItems(){
+        Methods.registerItems();
     }
     public static JavaPlugin getInstance(){
         return instance;

@@ -1,27 +1,29 @@
 package waterfun.waterwood.waterenchant.Methods;
 
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.waterwood.enums.RarityLevel;
 import org.waterwood.io.FileConfigProcess;
 import org.waterwood.plugin.bukkit.BukkitPlugin;
-import org.waterwood.plugin.bukkit.util.CustomEnchant;
 import waterfun.waterwood.waterenchant.Enchantments.*;
-import waterfun.waterwood.waterenchant.WaterEnchant;
+import waterfun.waterwood.waterenchant.items.EnchantBook;
 
-import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 public class Methods {
     protected static FileConfigProcess EnchantInfo;
-
-    private static BukkitPlugin plugin;
-    private static FileConfigProcess config;
+    private static Map<String,String> rarityNames;
+    protected static BukkitPlugin plugin;
+    protected static FileConfigProcess config;
     public static void init(BukkitPlugin plugin){
             Methods.plugin = plugin;
-            config = BukkitPlugin.getConfigs();
+            configReload();
             EnchantInfo = plugin.loadFile("enchant.yml");
     }
     protected static Optional<ItemMeta> getItemMetaOptional(ItemStack item) {
@@ -31,6 +33,9 @@ public class Methods {
     public static void configReload(){
         plugin.loadConfig();
         config = BukkitPlugin.getConfigs();
+        rarityNames = new HashMap<>();
+        rarityNames.putAll(config.get("rarity-display",RarityLevel.getRarityLevelDisplayMap()));
+        registerItems();
     }
     public static void enchantInfoReload(){
         EnchantInfo = plugin.loadFile("enchant.yml");
@@ -48,6 +53,14 @@ public class Methods {
                 new AttackRecoveryEnchant()
         );
     }
+    public static void registerItems(){
+        ItemManager.registerItem(
+                new EnchantBook()
+        );
+    }
+    public static FileConfigProcess getConfig(){
+        return config;
+    }
     /**
      * Add a PotionEffect to a player
      * intensity start form 1 instead of amplifier > 0
@@ -59,5 +72,16 @@ public class Methods {
     public static void addPlayerPotionEffect(Player player, PotionEffectType effect, int duration, int intensity){
         PotionEffect PotionEffect = new PotionEffect(effect,duration,intensity - 1);
         player.addPotionEffect(PotionEffect);
+    }
+
+    public static NamespacedKey getNamespacedKey(String key,String secondKey){
+        return new NamespacedKey(key,secondKey);
+    }
+
+    public static NamespacedKey getNamespacedKey(NamespacedKey namespacedKey,String secondKey){
+        return new NamespacedKey(namespacedKey.getNamespace(),namespacedKey.getKey() + "." + secondKey);
+    }
+    public  static String getRarityDisplay(RarityLevel rarityLevel){
+        return rarityNames.get(rarityLevel.getKey());
     }
 }

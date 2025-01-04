@@ -1,7 +1,43 @@
 config-version: 1.0.0
-
 locale: zh
 
 check-update:
   enable: true
   auto-download: true
+
+enchant-item:
+  material: BOOK
+  name: "§6超级附魔书§r"
+  description:
+    - "一本蕴含着神秘力量的书本"
+    - "它能够赋予一些物品强大的力量"
+    - ""
+    - "附魔成功率: §7{success-rate}%§r"
+    - "破碎率: §7{broken-rate}%§r"
+
+
+# 当超级附魔书被应用到某个准备附魔的物品时候执行物品附魔操作的概率
+# success-rate 表示成功率
+# broken-rate 表示当没有附魔成功的时候的物品破碎的概率（破碎是直接消失）
+# damage-rate 是物品附魔失败的时候且并且没有破碎的时候发成操作的概率
+#  down-grade表示降级,damage-item 表示损坏物品耐久的概率，damage-percent是损失百分比的耐久
+#  如果都避开了以上操作，则直接无事发生
+enchant:
+  success-rate:
+    type: random # random , fixed
+    min-percent: 10.0
+    max-percent: 100.0
+    message: "§a附魔成功"
+  broken-rate:
+    type: random
+    min-percent: 5.0
+    max-percent: 10.0
+    message: "§c附魔失败，物品破碎了!"
+  damage-rate:
+    down-grade:
+      chance: 20.0
+      message: "§c附魔失败，附魔等级降低了!§r"
+    damage-item:
+      chance: 20.0
+      damage-percent: 10.0
+      message: "§c附魔失败，物品损失了%{damage-percent}的耐久§r"

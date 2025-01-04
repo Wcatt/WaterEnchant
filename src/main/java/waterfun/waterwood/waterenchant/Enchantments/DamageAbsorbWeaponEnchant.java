@@ -1,10 +1,9 @@
 package waterfun.waterwood.waterenchant.Enchantments;
 
 import org.bukkit.ChatColor;
-import org.bukkit.NamespacedKey;
-import org.waterwood.common.Colors;
-import org.waterwood.consts.COLOR;
-import org.waterwood.consts.RarityLevel;
+import org.waterwood.utils.Colors;
+import org.waterwood.enums.COLOR;
+import org.waterwood.enums.RarityLevel;
 import waterfun.waterwood.waterenchant.util.Enchants;
 
 import java.util.List;
@@ -15,7 +14,7 @@ public class DamageAbsorbWeaponEnchant extends Enchants {
     private static double EFFECT_PER_LEVEL = 1;
 
     public DamageAbsorbWeaponEnchant() {
-        super(new NamespacedKey(defaultNameSpace,"damage-absorb"));
+        super("damage-absorb");
         this.InitData();
     }
     @Override

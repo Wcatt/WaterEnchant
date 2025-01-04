@@ -9,9 +9,9 @@
 # 最先展示稀有度最高的display
 #
 # description 第一,二行通常是关于该附魔的大致解释
-#
+# duration 的单位没有特殊说明是以秒为主
 # rarity 为附魔的稀有度，影响默认的name-color
-# rarity共有6个等级 common/normal , advance , rare , epic , legend, mythic
+# rarity共有6个等级 common , advance , rare , epic , legend, mythic
 # 分别对应 普通，进阶,稀有，史诗，传说，神话
 # 分别对应的颜色 灰，绿，青，紫，金，红
 
@@ -21,12 +21,13 @@ lightning:
   max-level: 5
   rarity: advance
   chance-per-level: 15
-  display: "§b你以雷霆之威，震慑四方，柔情亦藏心间§r"
+  display: "§b雷霆之威，震慑四方§r"
   description:
-    - "在攻击的时候有概率在敌人位置生成雷电电击敌人"
+    - "在对敌人造成伤害的时候概率召唤§b闪电§r"
+    - "在§c目标§r地点"
     - ""
-    - "最低等级: §7{min-level}§r / 最高等级: §7{max-level}§r"
-    - "每级增加: §6{chance-per-level} %§r 概率"
+    - "最低,最高等级: §7{min-level}§r / §7{max-level}§r"
+    - "§6每级概率: §7{chance-per-level}§r percent"
 vampire:
   name: "汲取"
   min-level: 1
@@ -35,28 +36,100 @@ vampire:
   healing-percent-per-level: 10
   display: "§c”我在你的血液里品尝到了恐惧“§r"
   description:
-    - "在攻击敌人的时候，按一定比率转化伤害变成生命值,以此来治疗自己"
-    - "最低等级: §7{min-level}§r / 最高等级: §7{max-level}§r"
-    - "每级增加: §6{healing-percent-per-level} %§r 转化比率"
-# basic-duration 和 duration-per-level-tick 都用的是 tick作为单位
-# 20 个 ticks 约为 1 秒
+    - "在§6玩家§r对§6目标§r造成伤害的时候"
+    - "会将一定比率的§c伤害§r转换成§a生命值§r回复自己"
+    - ""
+    - "最低,最高等级: §7{min-level}§r / §7{max-level}§r"
+    - "§a治疗比率:§r 每级 §7{healing-percent-per-level}%§r"
 # effect 每点大约是 2颗黄色心，4点生命值,第 1 级提供 2 颗
-# stack代表是否是叠加，如果为false则效果只是覆盖
 damage-absorb:
   name: "伤害吸收"
   max-level: 5
   rarity: epic
-  basic-duration: 10
-  duration-per-level-tick: 20
+  basic-duration: 0.5
+  duration-per-level: 1
   effect-per-level: 1
   is-duration-stack: false
   is-effect-stack: false
   display: "剑起风雷，护佑如影随形。"
   description:
-    - "使用剑对实体造成伤害的时候会短暂生成伤害吸收效果"
+    - "当§6玩家§r对目标造成伤害的时候"
+    - "会短暂的生成一个§b伤害吸收§r的效果抵御下次攻击"
     - ""
-    - "最低等级 §7{min-level}§r / 最高等级: §7{max-level}§r"
-    - "每级护佑强度: §6{effect-per-level}§r"
-    - "持续时间: §6{basic-duration}§r + §6{duration-per-level-tick}§r tick每级"
+    - "最低,最高等级: §7{min-level}§r / §7{max-level}§r"
+    - "§b持续时间:§r §7{basic-duration}§r + §7{duration-per-level}每级§r 秒"
+    - "§6护盾效果:§r §7{effect-per-level}§r 点 每级"
 
+attack-recovery:
+  name: "攻击恢复"
+  min-level: 1
+  max-level: 5
+  rarity: legend
+  basic-duration: 3
+  duration-per-level: 0.5
+  recovery-effect-per-level: 0.5
+  display: "生命恢复的守护魔法"
+  description:
+    - "当玩家受到敌人造成§c伤害§r时，"
+    - "临时提供一定的§a生命恢复§r效果"
+    - ""
+    - "最低,最高等级: §7{min-level}§r / §7{max-level}§r"
+    - "§b持续时间:§r §7{basic-duration}§r 秒 + §7{duration-per-level}§r 每级秒"
+    - "§a恢复效果:§r §7{recovery-effect-per-level}§r 每级"
 
+damage-addition:
+  name: "伤害附加"
+  min-level: 1
+  max-level: 3
+  rarity: epic
+  damage-addition-per-level: 0.5
+  display: "更锋利，更强大"
+  description:
+    - "任何普通攻击附加§6额外伤害§r(§5不受护甲影响§r)"
+    - "包括未完全充能的轻击"
+    - ""
+    - "最低,最高等级: §7{min-level}§r / §7{max-level}§r"
+    - "§c伤害附加:§r §7{damage-addition-per-level}§r 每级"
+
+damage-amplification:
+  name: "伤害增幅"
+  min-level: 1
+  max-level: 10
+  rarity: epic
+  growth-percent-per-level: 5
+  display: "\"我感受到了力量.\""
+  description:
+    - "按照百分比增幅玩家所造成的伤害"
+    - ""
+    - "最低,最高等级: §7{min-level}§r / §7{max-level}§r"
+    - "§c增幅成长:§r §7{growth-percent-per-level}%§r 每级"
+
+damage-offset:
+  name: "伤害抵消"
+  min-level: 1
+  max-level: 3
+  rarity: epic
+  offset-percent-per-level: 5.0
+  min-damage-percent: 50.0
+  display: "\"你是在刮擦吗?\""
+  description:
+    - "在§6玩家§r受到攻击的时候，按照一定百分比减免§c伤害§r"
+    - ""
+    - "最低,最高等级: §7{min-level}§r / §7{max-level}§r"
+    - "§6抵消百分比:§r §7{offset-percent-per-level}%§r 每级"
+    - "§c最小伤害:§r §7{min-percent-damage}%§r 最低伤害"
+
+damage-reduction:
+  name: "伤害减免"
+  min-level: 1
+  max-level: 3
+  rarity: epic
+  reduction-per-level: 0.5
+  min-damage: 0.5
+  display: "\"坚固的防御，命运的庇护。\""
+  description:
+    - "在§6玩家§r受到攻击的时候，按照一定固定数值减免§c伤害§r"
+    - ""
+    - "最低,最高等级: §7{min-level}§r / §7{max-level}§r"
+    - "§6减免伤害:§r §7{reduction-per-level}点§r 每级"
+    - "§c最小伤害:§r §7{min-damage}%§r"

@@ -5,18 +5,21 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-import waterfun.waterwood.waterenchant.Enchantments.DamageAbsorbWeaponEnchant;
-import waterfun.waterwood.waterenchant.Enchantments.LightningEnchant;
-import waterfun.waterwood.waterenchant.Enchantments.VampireEnchant;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
+import org.waterwood.plugin.bukkit.custom.CustomEnchant;
 import waterfun.waterwood.waterenchant.Methods.EnchantManager;
+import waterfun.waterwood.waterenchant.Methods.Methods;
+import waterfun.waterwood.waterenchant.items.EnchantBook;
+import waterfun.waterwood.waterenchant.util.EnchantItems;
 
 import java.util.Random;
 
 public class PlayerEvents extends EnchantEvents implements Listener {
+    Random rand = new Random();
 
     @EventHandler
     public void onEntityDamage(EntityDamageByEntityEvent evt){
@@ -44,4 +47,19 @@ public class PlayerEvents extends EnchantEvents implements Listener {
         }
     }
 
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent evt){
+        ItemStack cursorItem = evt.getCursor();
+        ItemStack targetItem = evt.getCurrentItem();
+        if(cursorItem == null || targetItem == null) return;
+        EnchantBook book = new EnchantBook();
+        if(cursorItem.getType() != book.getMaterial()) return;
+        ItemMeta meta = cursorItem.getItemMeta();
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        if(container.get(Methods.getNamespacedKey(book.getKey(),"target-enchant"), PersistentDataType.STRING) == null) return;
+
+        CustomEnchant enchant = EnchantManager.getEnchantment(
+                container.get(Methods.getNamespacedKey(book.getKey(),"target-enchant"), PersistentDataType.STRING));
+        evt.setCancelled(! tryEnchantment(container,(Player)evt.getWhoClicked(),enchant,book,targetItem));
+    }
 }

@@ -1,7 +1,6 @@
 package waterfun.waterwood.waterenchant.Enchantments;
 
-import org.bukkit.NamespacedKey;
-import org.waterwood.consts.RarityLevel;
+import org.waterwood.enums.RarityLevel;
 import waterfun.waterwood.waterenchant.util.Enchants;
 
 import java.util.List;
@@ -11,7 +10,7 @@ public class  DamageOffsetEnchant extends Enchants {
     private static double MIN_DAMAGE_PERCENT;
 
     public DamageOffsetEnchant() {
-        super(new NamespacedKey(defaultNameSpace,"damage-offset"));
+        super("damage-offset");
         this.InitData();
     }
 

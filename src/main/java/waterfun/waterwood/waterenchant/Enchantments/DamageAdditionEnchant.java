@@ -1,8 +1,6 @@
 package waterfun.waterwood.waterenchant.Enchantments;
 
-import org.bukkit.ChatColor;
-import org.bukkit.NamespacedKey;
-import org.waterwood.consts.RarityLevel;
+import org.waterwood.enums.RarityLevel;
 import waterfun.waterwood.waterenchant.util.Enchants;
 
 import java.util.List;
@@ -11,7 +9,7 @@ public class DamageAdditionEnchant extends Enchants {
     private static double DAMAGE_ADDITION_PER_LEVEL;
 
     public DamageAdditionEnchant() {
-        super(new NamespacedKey(defaultNameSpace,"damage-addition"));
+        super("damage-addition");
         this.InitData();
     }
 

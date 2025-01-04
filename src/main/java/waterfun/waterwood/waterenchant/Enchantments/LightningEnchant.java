@@ -1,9 +1,6 @@
 package waterfun.waterwood.waterenchant.Enchantments;
 
-import org.bukkit.NamespacedKey;
-import org.waterwood.common.Colors;
-import org.waterwood.consts.COLOR;
-import org.waterwood.consts.RarityLevel;
+import org.waterwood.enums.RarityLevel;
 import waterfun.waterwood.waterenchant.util.Enchants;
 
 import java.util.List;
@@ -11,7 +8,7 @@ import java.util.List;
 public class LightningEnchant extends Enchants {
     private static int CHANCE_PER_LEVEL = 15;
     public LightningEnchant() {
-        super(new NamespacedKey(defaultNameSpace,"lightning"));
+        super("lightning");
         this.InitData();
     }
 

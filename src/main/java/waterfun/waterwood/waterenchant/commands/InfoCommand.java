@@ -2,22 +2,20 @@ package waterfun.waterwood.waterenchant.commands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.waterwood.common.Colors;
-import org.waterwood.common.StringProcess;
-import org.waterwood.consts.COLOR;
+import org.waterwood.processor.MessageProcessor;
+import org.waterwood.utils.Colors;
+import org.waterwood.processor.StringProcess;
+import org.waterwood.enums.COLOR;
 import org.waterwood.plugin.bukkit.BukkitPlugin;
 import org.waterwood.plugin.bukkit.command.BukkitCommand;
-import org.waterwood.plugin.bukkit.util.CustomEnchant;
-import org.waterwood.plugin.bukkit.util.ItemMetaProcesser;
+import org.waterwood.plugin.bukkit.custom.CustomEnchant;
 import waterfun.waterwood.waterenchant.Methods.EnchantManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class InfoCommand extends BukkitCommand {
@@ -36,7 +34,7 @@ public class InfoCommand extends BukkitCommand {
                         //shown enchant infos
                         CustomEnchant enchant = EnchantManager.getEnchantment(enchantNameKey);
                         sender.sendMessage(BukkitPlugin.getPluginMessage("enchant-info-shown-message").formatted(enchant.getDisplayName())
-                                + " §6ID:§r §l" + enchant.getName() + "§r");
+                                + " §6§lID:§r §7" + enchant.getKey().getKey() + "§r");
                         for(String str: enchant.getDescription()){
                             sender.sendMessage(ChatColor.BOLD + String.valueOf(ChatColor.GRAY) + "> " + ChatColor.RESET + str);
                         }
@@ -68,12 +66,15 @@ public class InfoCommand extends BukkitCommand {
                                 ChatColor.GRAY + "> " + enchant.getDisplayName()+ " " + ChatColor.GRAY+
                                         StringProcess.toRoman(EnchantManager.getLevel(item,enchant))
                         );
+                        for(String str: enchant.getDescription()){
+                            sender.sendMessage(ChatColor.BOLD + String.valueOf(ChatColor.GRAY) + "> " + ChatColor.RESET + str);
+                        }
 
                     });
                 }
             return true;
         }
-        sender.sendMessage(Colors.coloredText(BukkitPlugin.getPluginMessage("unknown-command-message"),COLOR.RED));
+        sender.sendMessage(MessageProcessor.errorMessage("unknown-command-message"));
         return false;
     }
 

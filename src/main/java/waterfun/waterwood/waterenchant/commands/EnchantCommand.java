@@ -1,22 +1,18 @@
 package waterfun.waterwood.waterenchant.commands;
 
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.waterwood.common.Colors;
-import org.waterwood.common.StringProcess;
-import org.waterwood.consts.COLOR;
+import org.waterwood.utils.Colors;
+import org.waterwood.processor.StringProcess;
+import org.waterwood.enums.COLOR;
 import org.waterwood.plugin.bukkit.BukkitPlugin;
 import org.waterwood.plugin.bukkit.command.BukkitCommand;
-import org.waterwood.plugin.bukkit.util.CustomEnchant;
+import org.waterwood.plugin.bukkit.custom.CustomEnchant;
 import waterfun.waterwood.waterenchant.Methods.EnchantManager;
-import waterfun.waterwood.waterenchant.WaterEnchant;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -84,9 +80,7 @@ public class EnchantCommand extends BukkitCommand {
                         successMessage = EnchantSuccessMessage(enchantment);
                     } else {
                         if (!checkArgs(sender, args, 4)) return false;
-                        int setLevel = Math.max(enchantment.getMinLevel(), Math.min(currentLevel + level, enchantment.getMaxLevel()));
-                        EnchantManager.setEnchant(item, enchantment, setLevel);
-                        successMessage = EnchantSetMessage(enchantment,setLevel);
+                        successMessage = EnchantSetMessage(enchantment, EnchantManager.setEnchant(item, enchantment, currentLevel + level));
                     }
                 }
                 case "remove", "clear" -> {

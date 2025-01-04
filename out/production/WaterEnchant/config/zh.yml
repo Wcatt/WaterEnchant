@@ -1,0 +1,65 @@
+config-version: 1.0.0
+locale: zh
+
+check-update:
+  enable: true
+  auto-download: true
+
+# 指定附魔物品的配置（类似附魔强化石）
+# 物品的名字颜色对应的是其对应的附魔的稀有度程度反应的颜色
+# material必须是服务器使用版本支持的物品而不是客户端的
+# 此处的name,description 可支持的占位符
+# 占位符： 成功率{success-rate} 破碎率{broken-rate} 降级率{down-grade-rate}
+# 损坏耐久的概率{damage-item-rate} 每次损坏程度百分比{damage-item-damage-percent}
+enchant-item:
+  material: BOOK
+  name: "超级附魔书§f[§r§l{enchant-display-name}§f]§r"
+  description:
+    - "§f一本蕴含着神秘力量的书本"
+    - "§f它能够赋予一些物品强大的力量"
+    - ""
+    - "§f附魔成功率: §a§l{success-rate}%§r"
+    - "§f破碎率: §c{break-rate}%§r"
+    - "§f降级率: §7{down-grade-rate}%§r"
+    - "§f损坏耐久的概率: §7{damage-item-rate}%§r §f损坏百分比: §7{damage-percent}%§r"
+
+
+# 当超级附魔书被应用到某个准备附魔的物品时候执行物品附魔操作的概率
+# success-rate 表示成功率
+# break-rate 表示当没有附魔成功的时候的物品破碎的概率（破碎是直接消失）
+# down-grade表示降级
+# damage-item 表示损坏物品耐久的概率，damage-percent是损失百分比的耐久
+# 如果都避开了以上操作，则直接无事发生
+# 失败检测从上至下，如果某一个提前发生，则下方效果不会再检测执行
+# 如需要配置随机比率，则需要再rate属性下再额外添加两个属性 min-percent 和 max-percent 系统会自动检测
+enchant:
+  success:
+    rate:
+      min-percent: 10.0
+      max-percent: 100.0
+    message: "§a附魔强化成功"
+  fail:
+    down-grade:
+      rate: 20.0
+      message: "§c附魔失败，附魔等级降低了!§r"
+    damage-item:
+      rate: 30.0
+      damage-percent:
+        rate: 10.0
+      message: "§c附魔失败，物品损失了%{damage-percent}的耐久§r"
+    break:
+      rate:
+        min-percent: 5.0
+        max-percent: 10.0
+      message: "§c附魔失败，物品破碎了!"
+    message: "§c附魔失败，什么也没有发生。"
+
+# 对稀有度等级进行翻译
+# 在description中支持的 {rarity-display} 占位符翻译。默认为英文
+rarity-display:
+  normal: "普通"
+  advance: "进阶"
+  rare: "稀有"
+  epic: "史诗"
+  legend: "传说"
+  mythic: "神话"
